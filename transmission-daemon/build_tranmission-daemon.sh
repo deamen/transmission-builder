@@ -1,6 +1,11 @@
 #!/bin/bash
 
-mkdir out
+# Create "out" folder if it does not exists
+if [ ! -d out ]
+then
+    mkdir out
+fi
+
 export TRANSMISSION_VERSION="4.0.5"
 buildah bud -f Containerfile.transmission --iidfile out/transmission-${TRANSMISSION_VERSION}.iid
 
