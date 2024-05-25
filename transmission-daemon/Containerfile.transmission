@@ -1,13 +1,14 @@
-FROM alpine:latest
+FROM alpine:3.20
 LABEL maintainer="gitub.com/deamen"
 
-ENV TRANSMISSION_VERSION="4.0.5"
+ARG TRANSMISSION_VERSION
+ENV TRANSMISSION_VERSION=${TRANSMISSION_VERSION}
 
 RUN apk update && apk --no-cache add sudo vim \
-    build-base curl-static curl-dev brotli-static brotli-dev nghttp2-static \
-    zlib-static zlib-dev c-ares-static linux-headers libunistring-static libunistring-dev \
-    openssl-libs-static libevent-static libidn2-static libidn2-dev libevent-dev xz ninja cmake \
-    gettext-dev
+    build-base curl-static brotli-static brotli-dev nghttp2-static \
+    zlib-static zlib-dev curl-dev c-ares-static linux-headers libunistring-static libunistring-dev \
+    openssl-libs-static libpsl-static libevent-static libidn2-static libidn2-dev libevent-dev xz \
+    zstd-static ninja cmake gettext-dev
 
 RUN wget -c https://github.com/transmission/transmission/releases/download/${TRANSMISSION_VERSION}/transmission-${TRANSMISSION_VERSION}.tar.xz
 RUN tar -xf transmission-${TRANSMISSION_VERSION}.tar.xz
@@ -31,6 +32,7 @@ RUN   cmake \
         -DCMAKE_EXE_LINKER_FLAGS="-static" \
         -DCURL_LIBRARY_RELEASE=/usr/lib/libcurl.a \
         -DEVENT2_LIBRARY=/usr/lib/libevent.a \
+        -DPSL_PREFER_STATIC_LIB=ON \
         -DOPENSSL_USE_STATIC_LIBS=TRUE
 
 RUN cmake --build transmission-${TRANSMISSION_VERSION}-obj --config Release

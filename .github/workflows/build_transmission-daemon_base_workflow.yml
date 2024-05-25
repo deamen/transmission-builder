@@ -1,0 +1,45 @@
+name: build transmission-daemon base workflow
+
+on:
+  workflow_call:
+        
+jobs:
+  build_transmission-daemon:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./transmission-daemon
+      TRANSMISSION_VERSION: 4.0.5
+    defaults:
+      run:
+        working-directory: ${{ env.working-directory }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install buildah
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y buildah qemu-user-static
+
+      - name: Build the tranmission-daemon
+        run: build_tranmission-daemon.sh
+
+      - name: Install b2sum
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y coreutils
+
+      - name: Calculate b2sum
+        run: |
+          b2sum out/* > out/transmission-daemon-${{ env.TRANSMISSION_VERSION }}.b2sum
+      
+      - name: Make release transmission-daemon tarball
+        run: |
+          /bin/tar clJf transmission-daemon-${{ env.TRANSMISSION_VERSION }}.tar.xz out/*
+
+      - name: Upload the transmission-daemon tarball
+        uses: actions/upload-artifact@v3
+        with:
+          name: transmission-daemon-${{ env.TRANSMISSION_VERSION }}.tar.xz
+          path: transmission-daemon-${{ env.TRANSMISSION_VERSION }}.tar.xz
+          retention-days: 1

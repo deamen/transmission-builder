@@ -2,7 +2,7 @@ diff --git a/daemon/CMakeLists.txt b/daemon/CMakeLists.txt
 index 9a966b09d..b1d940b8b 100644
 --- a/daemon/CMakeLists.txt
 +++ b/daemon/CMakeLists.txt
-@@ -30,12 +30,37 @@ target_include_directories(${TR_NAME}-daemon SYSTEM
+@@ -30,12 +30,39 @@ target_include_directories(${TR_NAME}-daemon SYSTEM
      PRIVATE
          $<$<BOOL:${WITH_SYSTEMD}>:${SYSTEMD_INCLUDE_DIRS}>)
 
@@ -18,6 +18,7 @@ index 9a966b09d..b1d940b8b 100644
 +find_library(LIB_Z NAMES z PATHS /lib /usr/lib REQUIRED)
 +find_library(LIB_CRYPTO NAMES crypto PATHS /usr/lib REQUIRED)
 +find_library(LIB_BROTLICOMMON NAMES brotlicommon PATHS /usr/lib REQUIRED)
++find_library(LIB_ZSTD NAMES zstd PATHS /usr/lib REQUIRED)
 +
  target_link_libraries(${TR_NAME}-daemon
      PRIVATE
@@ -37,6 +38,7 @@ index 9a966b09d..b1d940b8b 100644
 +        ${LIB_Z}
 +        ${LIB_CRYPTO}
 +        ${LIB_BROTLICOMMON}
++        ${LIB_ZSTD}
 +    )
 
  tr_win32_app_info(${TR_NAME}-daemon
