@@ -36,15 +36,18 @@ jobs:
         run: |
           tag_name=$(echo "${GITHUB_REF#refs/tags/}")
           body="Release notes for $tag_name - ${{ matrix.arch }}"
+          release_tag="${tag_name}-${{ matrix.arch }}"
 
-          echo "Creating release $tag_name-${{ matrix.arch }}"
-          gh release create "$tag_name-${{ matrix.arch }}" "transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.tar.xz" --notes "$body" --disable-archive
+          echo "Creating release $release_tag"
+          gh release create "$release_tag" "transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.tar.xz" --notes "$body" --disable-archive
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify Release
         run: |
-          release_id=$(gh release view "$tag_name-${{ matrix.arch }}" --json id -q ".id")
+          tag_name=$(echo "${GITHUB_REF#refs/tags/}")
+          release_tag="${tag_name}-${{ matrix.arch }}"
+          release_id=$(gh release view "$release_tag" --json id -q ".id")
           echo "Release ID: $release_id"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
