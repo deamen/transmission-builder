@@ -38,7 +38,7 @@ jobs:
           body="Release notes for $tag_name - ${{ matrix.arch }}"
 
           echo "Creating release $tag_name-${{ matrix.arch }}"
-          gh release create "$tag_name-${{ matrix.arch }}" "transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.tar.xz" --notes "$body"
+          gh release create "$tag_name-${{ matrix.arch }}" "transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.tar.xz" --notes "$body" --disable-archive
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
