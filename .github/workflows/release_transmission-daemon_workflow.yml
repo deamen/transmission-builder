@@ -31,14 +31,14 @@ jobs:
         with:
           name: transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.tar.xz
 
-      - name: Create Transmission Daemon Release
+      - name: Create transmission-daemon Release
         id: create_release
         run: |
           tag_name=$(echo "${GITHUB_REF#refs/tags/}")
           body="Release notes for $tag_name"
 
           echo "Creating release $tag_name"
-          gh release create "$tag_name" "out/transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.tar.xz" --notes "$body"
+          gh release create "$tag_name" "transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.tar.xz" --notes "$body"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
