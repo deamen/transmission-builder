@@ -1,4 +1,4 @@
-name: Release Transmission Daemon
+name: Release transmission-daemon workflow
 
 on:
   push:
