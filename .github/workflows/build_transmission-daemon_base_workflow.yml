@@ -6,13 +6,13 @@ on:
       - master
     paths:
       - 'transmission-daemon/**'
-      - '.github/workflows/build-transmission-daemon.yml'
+      - '.github/workflows/build_transmission-daemon_base_workflow.yml'
   pull_request:
     branches:
       - master
     paths:
       - 'transmission-daemon/**'
-      - '.github/workflows/build-transmission-daemon.yml'
+      - '.github/workflows/build_transmission-daemon_base_workflow.yml'
   workflow_dispatch:
 
 jobs:
