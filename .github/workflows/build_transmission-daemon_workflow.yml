@@ -1,0 +1,29 @@
+name: Build transmission-daemon workflow
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'transmission-daemon/**'
+      - '.github/workflows/build_transmission-daemon_workflow.yml'
+      - '.github/workflows/build_transmission-daemon_base_workflow.yml'
+      - 'build_transmission-daemon.sh'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'transmission-daemon/**'
+      - '.github/workflows/build_transmission-daemon_workflow.yml'
+      - '.github/workflows/build_transmission-daemon_base_workflow.yml'
+      - 'build_transmission-daemon.sh'
+  workflow_dispatch:
+
+jobs:
+  build-transmission-daemon:
+    strategy:
+      matrix:
+        arch: [amd64, arm64]
+    uses: ./.github/workflows/build_transmission-daemon_base_workflow.yml
+    with:
+      arch: ${{ matrix.arch }}

@@ -1,27 +1,15 @@
-name: build transmission-daemon base workflow
+name: Build transmission-daemon Base Workflow
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - 'transmission-daemon/**'
-      - '.github/workflows/build_transmission-daemon_base_workflow.yml'
-  pull_request:
-    branches:
-      - master
-    paths:
-      - 'transmission-daemon/**'
-      - '.github/workflows/build_transmission-daemon_base_workflow.yml'
-  workflow_dispatch:
   workflow_call:
+    inputs:
+      arch:
+        required: true
+        type: string
 
 jobs:
-  build_transmission-daemon:
+  build-transmission-daemon:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        arch: [amd64, arm64]
     env:
       working-directory: ./transmission-daemon
       TRANSMISSION_VERSION: 4.0.5
@@ -40,7 +28,7 @@ jobs:
       - name: Build the transmission-daemon
         run: |
           chmod +x build_transmission-daemon.sh
-          ./build_transmission-daemon.sh ${{ matrix.arch }}
+          ./build_transmission-daemon.sh ${{ inputs.arch }}
 
       - name: Install b2sum
         run: |
@@ -49,15 +37,15 @@ jobs:
 
       - name: Calculate b2sum
         run: |
-          b2sum out/* > out/transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.b2sum
+          b2sum out/* > out/transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ inputs.arch }}.b2sum
 
       - name: Make release transmission-daemon tarball
         run: |
-          /bin/tar clJf transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.tar.xz out/*
+          /bin/tar clJf transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ inputs.arch }}.tar.xz out/*
 
       - name: Upload the transmission-daemon tarball
         uses: actions/upload-artifact@v4.3.3
         with:
-          name: transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.tar.xz
-          path: ${{ env.working-directory }}/transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.tar.xz
+          name: transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ inputs.arch }}.tar.xz
+          path: transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ inputs.arch }}.tar.xz
           retention-days: 1

@@ -11,6 +11,8 @@ jobs:
       matrix:
         arch: [amd64, arm64]
     uses: ./.github/workflows/build_transmission-daemon_base_workflow.yml
+    with:
+      arch: ${{ matrix.arch }}
 
   release-transmission-daemon:
     runs-on: ubuntu-latest
