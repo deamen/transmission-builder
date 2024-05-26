@@ -47,5 +47,5 @@ jobs:
         uses: actions/upload-artifact@v4.3.3
         with:
           name: transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ inputs.arch }}.tar.xz
-          path: transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ inputs.arch }}.tar.xz
+          path: ${{ env.working-directory }}/transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ inputs.arch }}.tar.xz
           retention-days: 1
