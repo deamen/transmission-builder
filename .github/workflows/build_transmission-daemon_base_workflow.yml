@@ -55,8 +55,8 @@ jobs:
           /bin/tar clJf transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.tar.xz out/*
 
       - name: Upload the transmission-daemon tarball
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.3.3
         with:
           name: transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.tar.xz
-          path: transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.tar.xz
+          path: ${{ env.working-directory }}/transmission-daemon-${{ env.TRANSMISSION_VERSION }}-${{ matrix.arch }}.tar.xz
           retention-days: 1
