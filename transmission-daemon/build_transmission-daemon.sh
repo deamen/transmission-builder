@@ -8,6 +8,12 @@ fi
 
 ARCH=$1
 
+# Check if $TRANSMISSION_VERSION is set
+if [ -z "$TRANSMISSION_VERSION" ]; then
+  echo "TRANSMISSION_VERSION is not set"
+  exit 1
+fi
+
 # Create "out" folder if it does not exist
 if [ ! -d out ]; then
   mkdir out
