@@ -43,4 +43,3 @@ index 9a966b09d..b1d940b8b 100644
 
  tr_win32_app_info(${TR_NAME}-daemon
      "Transmission Daemon"
-
