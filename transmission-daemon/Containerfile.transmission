@@ -8,7 +8,7 @@ RUN apk update && apk --no-cache add sudo vim \
     build-base curl-static brotli-static brotli-dev nghttp2-static \
     zlib-static zlib-dev curl-dev c-ares-static linux-headers libunistring-static libunistring-dev \
     openssl-libs-static libpsl-static libevent-static libidn2-static libidn2-dev libevent-dev xz \
-    zstd-static ninja cmake gettext-dev
+    zstd-static ninja cmake gettext-dev wget
 
 RUN wget -c https://github.com/transmission/transmission/releases/download/${TRANSMISSION_VERSION}/transmission-${TRANSMISSION_VERSION}.tar.xz
 RUN tar -xf transmission-${TRANSMISSION_VERSION}.tar.xz
